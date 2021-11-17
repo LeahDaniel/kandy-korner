@@ -1,0 +1,19 @@
+.products{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+
+.product{
+    display: flex;
+    flex-direction: row;
+    border: black 1px solid;
+    width: 50%;
+    justify-content: space-between;
+    padding: 2rem 4rem
+}
+
+.product__purchase{
+    width: fit-content;
+}

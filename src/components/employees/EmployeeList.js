@@ -17,6 +17,19 @@ export const EmployeeList = () => {
         []
     )
 
+    const fireEmployee = (id) => {
+        fetch(`http://localhost:8088/employees/${id}`, {
+            method: "DELETE"
+        })
+        .then( () => {
+            fetch("http://localhost:8088/employees?_expand=location")
+                .then(res => res.json())
+                .then((data) => {
+                    changeEmployee(data)
+                })
+            })
+    }
+
     return (
         <>
             <div>
@@ -31,6 +44,7 @@ export const EmployeeList = () => {
                             <p>Manager: {employee.manager === true ? "Yes" : "No"}</p>
                             <p>Classification: {employee.fullTime === true ? "Full-time" : "Part-time"}</p>
                             <p>Hourly Rate: {employee.hourlyRate}</p>
+                            <button onClick={() => { fireEmployee(employee.id)}}> Fire Employee</button>
                         </div>
                     }
                 )

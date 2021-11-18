@@ -55,7 +55,7 @@ export const ProductLocationList = () => {
                                     <p>Type: {product.productType?.name}</p>
                                 </div>
                                 <div className="product__purchase">
-                                    <Purchase chosenProductId={product.id} productLocationId={currentProductLocation.id} />
+                                    <Purchase productLocationId={currentProductLocation.id} />
                                 </div>
                             </div>
                         )

@@ -24,6 +24,10 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 2px;
 }
 
+h1{
+  text-align: center;
+}
+
 p, div{
   margin-bottom: 1em;
   padding: .2rem 0 ;

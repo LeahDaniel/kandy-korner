@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import {  Link } from "react-router-dom"
+import "./LocationList.css"
 
 export const LocationList = () => {
     const [locations, setLocations] = useState([])
@@ -14,21 +15,20 @@ export const LocationList = () => {
     )
 
     return (
-        <>
+        <div className="locations">
             {
                 locations.map(
                     (location) => {
-                        return <div key={`location--${location.id}`}>
+                        return <div key={`location--${location.id}`} className="location">
                             <h3>{location.name}</h3>
                             <p>Address: {location.address}</p>
                             <Link to={`/products/location/${location.id}`}><button>
                                 Purchase Products
                             </button></Link>
-                            <p>---------------------------------------------</p>
                         </div>
                     }
                 )
             }
-        </>
+        </div>
     )
 }

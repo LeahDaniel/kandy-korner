@@ -16,16 +16,16 @@ export const CustomerList = () => {
     )
 
     return (
-        <>
+        <div className="customers">
             {
                 customers.map(
                     (customer) => {
-                        return <div key={`customer--${customer.id}`} className="customerListItem">
-                            <p> {customer.name} </p>
+                        return <div key={`customer--${customer.id}`} className="customer">
+                            {customer.name}
                         </div>
                     }
                 )
             }
-        </>
+        </div>
     )
 }

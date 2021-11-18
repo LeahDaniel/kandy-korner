@@ -1,13 +1,12 @@
-.customers{
+.locations{
     display: flex;
     flex-direction:column;
     align-items: center;
-    margin-top: 2rem
 }
 
-.customer{
+.location{
     text-align: center;
+    border: black 1px solid;
     width: 50%;
-    padding: .5rem;
-    margin: 0;
+    padding: 2rem 4rem
 }

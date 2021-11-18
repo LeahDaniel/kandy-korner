@@ -18,7 +18,7 @@ export const ApplicationViews = () => {
             <Route exact path="/products/location/:locationId(\d+)">
                 <ProductLocationList  />
             </Route>
-            <Route path="/locations">
+            <Route exact path="/">
                 <LocationList />
             </Route>
             <Route exact path="/employees">

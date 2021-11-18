@@ -14,17 +14,15 @@ export const ProductList = () => {
     )
 
     return (
-        <div className="products">
+        <div className="products__main">
             {
                 products.map(
                     (product) => {
                         return (
-                            <div key={`product--${product.id}`} className="product">
-                                <div className="product__info">
-                                    <h3>{product.name}</h3>
-                                    <p>Price: ${product.price}</p>
-                                    <p>Type: {product.productType.name}</p>
-                                </div>
+                            <div key={`product--${product.id}`} className="product__main">
+                                <h3>{product.name}</h3>
+                                <p>Price: ${product.price}</p>
+                                <p>Type: {product.productType.name}</p>
                             </div>
                         )
                     }

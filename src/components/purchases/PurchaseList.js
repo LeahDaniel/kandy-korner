@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-
+import "./PurchaseList.css"
 
 export const PurchaseList = () => {
     const customerId = parseInt(localStorage.getItem("kandy_customer"))
@@ -36,22 +36,21 @@ export const PurchaseList = () => {
     
 
     return (
-        <>
+        <div className="purchases">
             {
                 purchases.map(
                     (purchase) => {
                         const foundLocation = locations.find(location => location.id === purchase.productLocation.locationId)
                         const foundProduct = products.find(product => product.id === purchase.productLocation.productId)
-                        return <div key={`purchase--${purchase.id}`}>
+                        return <div key={`purchase--${purchase.id}`} className="purchase">
                             <p>Purchased by {purchase.customer.name} on {purchase.date}</p>
                             <p>Product: {foundProduct?.name}</p>
                             <p>Quantity: {purchase.quantity}</p>
                             <p>Location: {foundLocation?.name} </p>
-                            <p>---------------------------------------------</p>
                             </div>
                     }
                 )
             }
-        </>
+        </div>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useHistory } from "react-router";
 import "./Purchase.css"
 
-export const Purchase = ({chosenProductId, productLocationId}) => {
+export const Purchase = ({productLocationId}) => {
     const [purchase, updatePurchase] = useState({
         customerId: 0,
         productLocationId: 0,

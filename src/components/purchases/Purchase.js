@@ -2,10 +2,10 @@ import React, { useState } from "react"
 import { useHistory } from "react-router";
 import "./Purchase.css"
 
-export const Purchase = ({chosenProductId}) => {
+export const Purchase = ({chosenProductId, productLocationId}) => {
     const [purchase, updatePurchase] = useState({
         customerId: 0,
-        productId: 0,
+        productLocationId: 0,
         quantity: 0,
         date: ""
     });
@@ -18,7 +18,7 @@ export const Purchase = ({chosenProductId}) => {
 
         const newPurchase = {
             customerId: parseInt(localStorage.getItem("kandy_customer")),
-            productId: chosenProductId,
+            productLocationId: productLocationId,
             quantity: purchase.quantity,
             date: date.toLocaleDateString()
         }

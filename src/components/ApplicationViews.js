@@ -1,33 +1,37 @@
 import React from "react"
 import { Route } from "react-router-dom"
-import { ProductList} from "./products/ProductList"
-import { LocationList} from "./locations/LocationList"
+import { ProductList } from "./products/ProductList"
+import { LocationList } from "./locations/LocationList"
 import { EmployeeForm } from "./employees/EmployeeForm"
 import { EmployeeList } from "./employees/EmployeeList"
 import { CustomerList } from "./customers/CustomerList"
 import { PurchaseList } from "./purchases/PurchaseList"
+import { ProductLocationList } from "./products/ProductLocationList"
 
 
 export const ApplicationViews = () => {
     return (
         <>
-            <Route path="/products">
-                <ProductList/>
+            <Route exact path="/products">
+                <ProductList />
+            </Route>
+            <Route exact path="/products/location/:locationId(\d+)">
+                <ProductLocationList  />
             </Route>
             <Route path="/locations">
-                <LocationList/>
+                <LocationList />
             </Route>
             <Route exact path="/employees">
-                <EmployeeList/>
+                <EmployeeList />
             </Route>
             <Route path="/employees/hire">
-                <EmployeeForm/>
+                <EmployeeForm />
             </Route>
             <Route path="/customers">
-                <CustomerList/>
+                <CustomerList />
             </Route>
             <Route path="/purchases">
-                <PurchaseList/>
+                <PurchaseList />
             </Route>
         </>
     )

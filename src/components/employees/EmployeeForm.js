@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router";
+import { getAllLocations, postEmployee } from "../../ApiManager";
+import "./EmployeeForm.css"
 
 export const EmployeeForm = () => {
     const [locations, setLocation] = useState([])
+    //state hook for updating the employee transient state, for use in creating a new employee object and posting to api
     const [employee, updateEmployee] = useState({
         enteredName: "",
         selectedLocationId: 0,
@@ -13,18 +16,17 @@ export const EmployeeForm = () => {
 
     const history = useHistory()
 
+    //fetch locations and store in transient state
     useEffect(
         () => {
-            fetch("http://localhost:8088/locations")
-                .then(res => res.json())
-                .then((data) => {
-                    setLocation(data)
-                })
+            getAllLocations()
+                .then(setLocation)
         },
         []
     )
 
     const hireEmployee = (event) => {
+        //!What does this do exactly, and when do we need to use it? Why in this function and not others?
         event.preventDefault()
 
         const newEmployee = {
@@ -35,107 +37,112 @@ export const EmployeeForm = () => {
             hourlyRate: parseFloat(employee.hourlyRate)
         }
 
-        const fetchOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newEmployee)
-        }
-
-        return fetch("http://localhost:8088/employees", fetchOptions)
+        return postEmployee(newEmployee)
             .then(() => {
+                //after posting to employees, navigate to the /employees page. 
+                //No need to store state in transient again because the employees page fetches the employees state
                 history.push("/employees")
             })
 
     }
 
     return (
-        <form className="employeeForm">
-            <h2 className="employeeForm__title">New Employee</h2>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        required autoFocus
-                        type="text"
-                        className="form-control"
-                        placeholder="Full Name"
-                        onChange={
-                            (event) => {
-                                const copy = { ...employee }
-                                copy.enteredName = event.target.value
-                                updateEmployee(copy)
-                            }
-                        } />
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="location">Location:</label>
-                    <select
-                        onChange={
-                            (event) => {
-                                const copy = { ...employee }
-                                copy.selectedLocationId = event.target.value
-                                updateEmployee(copy)
-                            }
-                        }>
-                        <option value="0">Select a location</option>
-                        {
-                            locations.map(location => {
-                                return <option value={location.id} key={location.id}>{location.name}</option>
-                            })
+        <div className="formContainer">
+            <form className="employeeForm">
+                <h2 className="employeeForm__title">New Employee</h2>
+                <fieldset>
+                    <div className="form-group">
+                        <label htmlFor="name">Name:</label>
+                        <input
+                            //!What's required autoFocus?
+                            required autoFocus
+                            type="text"
+                            className="form-control"
+                            placeholder="Full Name"
+                            onChange={
+                                //update the employee transient state with the value of the name input
+                                (event) => {
+                                    const copy = { ...employee }
+                                    copy.enteredName = event.target.value
+                                    updateEmployee(copy)
+                                }
+                            } />
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div className="form-group">
+                        {//! I realized I don't have a matching id for the htmlFors. What issues could that cause?
                         }
-                    </select>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="manager">Manager:</label>
-                    <input type="checkbox"
-                        onChange={
-                            (event) => {
-                                const copy = { ...employee }
-                                copy.manager = event.target.checked
-                                updateEmployee(copy)
+                        <label htmlFor="location">Location:</label>
+                        <select
+                            onChange={
+                                //update the employee transient state with the value of the location select
+                                (event) => {
+                                    const copy = { ...employee }
+                                    copy.selectedLocationId = event.target.value
+                                    updateEmployee(copy)
+                                }
+                            }>
+                            <option value="0">Select a location</option>
+                            {
+                                locations.map(location => {
+                                    return <option value={location.id} key={location.id}>{location.name}</option>
+                                })
                             }
-                        } />
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="fullTime">Full-Time:</label>
-                    <input type="checkbox"
-                        onChange={
-                            (event) => {
-                                const copy = { ...employee }
-                                copy.fullTime = event.target.checked
-                                updateEmployee(copy)
-                            }
-                        } />
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="rate">Rate:</label>
-                    <input
-                        required autoFocus
-                        type="text"
-                        className="form-control"
-                        placeholder="Hourly Rate (please enter a number)"
-                        onChange={
-                            (event) => {
-                                const copy = { ...employee }
-                                copy.hourlyRate = event.target.value
-                                updateEmployee(copy)
-                            }
-                        } />
-                </div>
-            </fieldset>
-            <button className="btn btn-primary" onClick={hireEmployee}>
-                Finish Hiring
-            </button>
-        </form>
+                        </select>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div className="form-group">
+                        <label htmlFor="manager">Manager:</label>
+                        <input type="checkbox"
+                            onChange={
+                                (event) => {
+                                    //update the employee transient state with the value of the manager boolean (checkbox)
+                                    const copy = { ...employee }
+                                    copy.manager = event.target.checked
+                                    updateEmployee(copy)
+                                }
+                            } />
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div className="form-group">
+                        <label htmlFor="fullTime">Full-Time:</label>
+                        <input type="checkbox"
+                            onChange={
+                                (event) => {
+                                    //update the employee transient state with the value of the full-time boolean (checkbox)
+                                    const copy = { ...employee }
+                                    copy.fullTime = event.target.checked
+                                    updateEmployee(copy)
+                                }
+                            } />
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div className="form-group">
+                        <label htmlFor="rate">Rate:</label>
+                        <input
+                            required autoFocus
+                            type="text"
+                            className="form-control"
+                            placeholder="Hourly Rate (please enter a number)"
+                            onChange={
+                                (event) => {
+                                    //update the employee transient state with the value of the hourly rate input
+                                    const copy = { ...employee }
+                                    copy.hourlyRate = event.target.value
+                                    updateEmployee(copy)
+                                }
+                            } />
+                    </div>
+                </fieldset>
+                {/* on click of the button, use the updated employee transient state to post a new object to the api with the hireEmployee function */}
+                <button className="btn btn-primary" onClick={hireEmployee}>
+                    Finish Hiring
+                </button>
+            </form>
+        </div>
     )
 }

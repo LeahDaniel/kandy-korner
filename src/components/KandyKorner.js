@@ -11,6 +11,7 @@ export const KandyKorner = () => {
         <>
             <Route
                 render={() => {
+                    //if there is a logged in customer, return the app jsx
                     if (localStorage.getItem("kandy_customer")) {
                         return (
                             <>
@@ -20,6 +21,7 @@ export const KandyKorner = () => {
                             </>
                         );
                     } else {
+                        //if there is not a logged in customer, be sent to login page
                         return <Redirect to="/login" />;
                     }
                 }}
@@ -31,7 +33,7 @@ export const KandyKorner = () => {
             <Route path="/register">
                 <Register />
             </Route>
-        </>
+        </> 
     )
 }
 

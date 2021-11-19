@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { getAllLocations, getAllProducts, getPurchasesByCustomerId } from "../../ApiManager"
 import "./PurchaseList.css"
 
 export const PurchaseList = () => {
@@ -7,39 +8,37 @@ export const PurchaseList = () => {
     const [locations, setLocations] = useState([])
     const [products, setProducts] = useState([])
 
-
+    //fetch purchases for only the current customer (from localStorage) and expand the customer and productLocation. store in transient state
     useEffect(
         () => {
-            fetch(`http://localhost:8088/purchases?customerId=${customerId}&_expand=customer&_expand=productLocation`)
-                .then(res => res.json())
-                .then(purchaseData => setPurchases(purchaseData))
+            getPurchasesByCustomerId(customerId)
+                .then(setPurchases)
         },
         [customerId]
     )
+    //fetch locations and store in transient state
     useEffect(
         () => {
-            fetch(`http://localhost:8088/locations`)
-                .then(res => res.json())
-                .then(data => setLocations(data))
+            getAllLocations()
+                .then(setLocations)
         },
         []
     )
+    //fetch products and store in transient state
     useEffect(
         () => {
-            fetch(`http://localhost:8088/products`)
-                .then(res => res.json())
-                .then(data => setProducts(data))
+            getAllProducts()
+                .then(setProducts)
         },
         []
     )
-
-    
 
     return (
         <div className="purchases">
             {
                 purchases.map(
                     (purchase) => {
+                        //find the correct location and product objects for use in interpolation by checking the locationId and productId on the productLocation that was expanded
                         const foundLocation = locations.find(location => location.id === purchase.productLocation.locationId)
                         const foundProduct = products.find(product => product.id === purchase.productLocation.productId)
                         return <div key={`purchase--${purchase.id}`} className="purchase">
@@ -47,7 +46,7 @@ export const PurchaseList = () => {
                             <p>Product: {foundProduct?.name}</p>
                             <p>Quantity: {purchase.quantity}</p>
                             <p>Location: {foundLocation?.name} </p>
-                            </div>
+                        </div>
                     }
                 )
             }

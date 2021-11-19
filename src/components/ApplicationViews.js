@@ -15,6 +15,8 @@ export const ApplicationViews = () => {
             <Route exact path="/products">
                 <ProductList />
             </Route>
+            {//! what is the below syntax really saying? \d+
+            }
             <Route exact path="/products/location/:locationId(\d+)">
                 <ProductLocationList  />
             </Route>

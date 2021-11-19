@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react"
+import { getAllCustomers } from "../../ApiManager"
 import "./CustomerList.css"
 
 export const CustomerList = () => {
-    const [customers, changeCustomer] = useState([])
+    const [customers, setCustomer] = useState([])
 
+    //fetch and store customers in transient state
     useEffect(
         () => {
-            fetch("http://localhost:8088/customers")
-                .then(res => res.json())
-                .then((data) => {
-                    changeCustomer(data)
-                })
+            getAllCustomers()
+                .then(setCustomer)
         },
         []
     )
 
+    //return jsx- list of customers' names
     return (
         <div className="customers">
             {

@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router";
+import { postPurchase } from "../../ApiManager";
 import "./Purchase.css"
 
 export const Purchase = ({productLocationId}) => {
+    //state hook for updating the purchase transient state, for use in creating a new purchase object and posting to api
     const [purchase, updatePurchase] = useState({
         customerId: 0,
         productLocationId: 0,
@@ -23,16 +25,10 @@ export const Purchase = ({productLocationId}) => {
             date: date.toLocaleDateString()
         }
 
-        const fetchOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newPurchase)
-        }
-
-        return fetch("http://localhost:8088/purchases", fetchOptions)
+        postPurchase(newPurchase)
             .then(() => {
+                //after posting to purchases, navigate to the /purchases page. 
+                //No need to store state in this component's transient again because the purchases page fetches the purchases state anyway
                 history.push("/purchases")
             })
         
@@ -50,6 +46,7 @@ export const Purchase = ({productLocationId}) => {
                         placeholder="#s only"
                         onChange={
                             (event) => {
+                                //update quantity in purchase transient state using quantity field value
                                 const copy = {...purchase}
                                 copy.quantity = parseInt(event.target.value)
                                 updatePurchase(copy)
@@ -57,6 +54,7 @@ export const Purchase = ({productLocationId}) => {
                         } />
                 </div>
             </fieldset>
+            {/* on click of button, post the state from the transient purchase object using the savePurchase function */}
             <button className="btn btn-primary" onClick={savePurchase}>
                 Purchase
             </button>

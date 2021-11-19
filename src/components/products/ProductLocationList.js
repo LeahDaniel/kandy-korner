@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { getAllProducts, getProductLocationsByLocationId } from "../../ApiManager"
 import { Purchase } from "../purchases/Purchase"
 import "./ProductLocationList.css"
 
@@ -10,27 +11,36 @@ export const ProductLocationList = () => {
     const [filteredProducts, setFilteredProducts] = useState([])
 
 
-
+    //fetch products and store in transient state. expand productType and sort by productTypeId 
+    //to allow access to the productType name and make sure products are grouped by type
     useEffect(
         () => {
-            fetch(`http://localhost:8088/products?_expand=productType&_sort=productTypeId`)
-                .then(res => res.json())
-                .then(productData => setProducts(productData))
+            getAllProducts()
+                .then(setProducts)
         },
         []
     )
 
+    //!If I embed an array in the JSON query string, why is it not iterable?
+    //! Ex: http://localhost:8088/products?_embed=productLocations - product.productLocations was not iterable according to an error I got
+    
+    //fetch productLocations with a locationId matching that of the link (the location Id that was fed in from the location list)
+    //made possible by Route and the useParams hook. Store in transient state. Requires locationId to execute (locationId updates when useParams is called)
     useEffect(
         () => {
-            fetch(`http://localhost:8088/productLocations?locationId=${locationId}`)
-                .then(res => res.json())
-                .then(productLocationData => setProductLocations(productLocationData))
+            getProductLocationsByLocationId(locationId)
+                .then(setProductLocations)
         },
         [locationId]
     )
-
+    //for every productLocation (which already have the correct locationId due to the above fetch), find the associated product and return an array of them.
     useEffect(
         () => {
+            //!Would there be a better way of doing the below within a JSON query string parameter
+            //!I tried embedding productLocations in the products and then only getting the ones that 
+            //! have a productLocation with the appropriate locationID, but no dice
+            //! Or maybe just with better array methods?
+            
             const filtered = []
             for (const productLocation of productLocations) {
                 const foundProduct = products.find(product => product.id === productLocation.productId)
@@ -46,6 +56,7 @@ export const ProductLocationList = () => {
             {
                 filteredProducts.map(
                     (product) => {
+                        //find the correct productLocation for the current product by using the locationId from useParams and the id of the current product.
                         const currentProductLocation = productLocations.find(productLocation => productLocation.locationId === parseInt(locationId) && productLocation.productId === product?.id)
                         return (
                             <div key={`product--${product.id}`} className="product">
@@ -55,6 +66,7 @@ export const ProductLocationList = () => {
                                     <p>Type: {product.productType?.name}</p>
                                 </div>
                                 <div className="product__purchase">
+                                    {/* use Props to pass the productLocationId to the purchase component */}
                                     <Purchase productLocationId={currentProductLocation.id} />
                                 </div>
                             </div>

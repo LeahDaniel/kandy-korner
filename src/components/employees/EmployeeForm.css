@@ -1,0 +1,22 @@
+.employeeForm{
+    width: 50%;
+}
+.employeeForm select{
+    padding: 1em;
+    color: black;
+}
+.employeeForm button{
+    padding: .5em;
+    background-color: rgb(220, 220, 220);
+}
+.employeeForm label{
+    margin: 1em 1em 1em 0;
+}
+.employeeForm__title{
+    text-align: center;
+}
+.formContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

@@ -4,10 +4,11 @@ import { deleteEmployee, getAllEmployees } from "../../ApiManager";
 import "./EmployeeList.css"
 
 export const EmployeeList = () => {
+    
     const [employees, setEmployee] = useState([])
     const history = useHistory()
 
-     //fetch employees and store in transient state
+    //fetch employees and store in transient state
     useEffect(
         () => {
             getAllEmployees()
@@ -15,7 +16,7 @@ export const EmployeeList = () => {
         },
         []
     )
-     //delete employee from api, then fetch employees and store in transient state to allow re-render
+    //delete employee from api, then fetch employees and store in transient state to allow re-render
     const fireEmployee = (id) => {
         deleteEmployee(id)
             .then(() => {

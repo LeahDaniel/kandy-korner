@@ -1,13 +1,24 @@
 .customers{
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    margin-top: 2rem
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    color: black;
 }
 
-.customer{
-    text-align: center;
-    width: 50%;
-    padding: .5rem;
-    margin: 0;
+.headerRow{
+    background-color: rgb(91, 91, 91);
 }
+
+.customer:nth-child(2n){
+    text-align: center;
+    background-color: rgb(120, 120, 120);
+}
+.customer:nth-child(2n+1){
+    text-align: center;
+    background-color: rgb(182, 181, 181);
+}
+
+.customer td{
+    padding: 1em;
+}
+

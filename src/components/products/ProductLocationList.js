@@ -61,7 +61,10 @@ export const ProductLocationList = () => {
                         return (
                             <div key={`product--${product.id}`} className="product">
                                 <div className="product__info">
-                                    <h3>{product.name}</h3>
+                                    {//!Why is line 65 the only one where product evaluates as undefined every once 
+                                    //!in a while without the optional chaining
+                                    }
+                                    <h3>{product?.name}</h3>
                                     <p>Price: ${product.price}</p>
                                     <p>Type: {product.productType?.name}</p>
                                 </div>

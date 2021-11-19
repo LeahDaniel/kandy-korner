@@ -21,9 +21,6 @@ export const ProductLocationList = () => {
         []
     )
 
-    //!If I embed an array in the JSON query string, why is it not iterable?
-    //! Ex: http://localhost:8088/products?_embed=productLocations - product.productLocations was not iterable according to an error I got
-    
     //fetch productLocations with a locationId matching that of the link (the location Id that was fed in from the location list)
     //made possible by Route and the useParams hook. Store in transient state. Requires locationId to execute (locationId updates when useParams is called)
     useEffect(
@@ -59,13 +56,10 @@ export const ProductLocationList = () => {
                         //find the correct productLocation for the current product by using the locationId from useParams and the id of the current product.
                         const currentProductLocation = productLocations.find(productLocation => productLocation.locationId === parseInt(locationId) && productLocation.productId === product?.id)
                         return (
-                            <div key={`product--${product.id}`} className="product">
+                            <div key={`product--${product?.id}`} className="product">
                                 <div className="product__info">
-                                    {//!Why is line 65 the only one where product evaluates as undefined every once 
-                                    //!in a while without the optional chaining
-                                    }
                                     <h3>{product?.name}</h3>
-                                    <p>Price: ${product.price}</p>
+                                    <p>Price: ${product?.price}</p>
                                     <p>Type: {product.productType?.name}</p>
                                 </div>
                                 <div className="product__purchase">

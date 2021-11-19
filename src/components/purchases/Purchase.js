@@ -17,15 +17,23 @@ export const Purchase = ({productLocationId}) => {
     const savePurchase = (event) => {
         event.preventDefault()
         const date = new Date()
+        const quantity = purchase.quantity
 
         const newPurchase = {
             customerId: parseInt(localStorage.getItem("kandy_customer")),
             productLocationId: productLocationId,
-            quantity: purchase.quantity,
             date: date.toLocaleDateString()
         }
 
-        postPurchase(newPurchase)
+        let promiseArray= []
+
+        //use the entered quantity value to post multiple new purchase objects at a time
+        //store in a promise array so that we can history.push after all posts are done
+        for(let i = 0; i < quantity; i++) {
+            promiseArray.push(postPurchase(newPurchase))
+        }
+
+        Promise.all(promiseArray)
             .then(() => {
                 //after posting to purchases, navigate to the /purchases page. 
                 //No need to store state in this component's transient again because the purchases page fetches the purchases state anyway
@@ -41,9 +49,9 @@ export const Purchase = ({productLocationId}) => {
                     <label htmlFor="quantity">Quantity:</label>
                     <input
                         required autoFocus
-                        type="text"
-                        className="form-control"
-                        placeholder="#s only"
+                        type="number"
+                        id="quantity"
+                        placeholder="#"
                         onChange={
                             (event) => {
                                 //update quantity in purchase transient state using quantity field value

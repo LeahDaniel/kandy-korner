@@ -1,7 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import "./NavBar.css"
-//!I don't think I wrote this props parameter here. What would be the purpose of this in theory?
+
+//!This props paramater was from code I pasted from the book. What would be the purpose of this in theory?
 export const NavBar = (props) => {
     //Links for the navbar that go to a certain address. These do not cause any function to run- that is the role of the route
     return (

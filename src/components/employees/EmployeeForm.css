@@ -1,22 +1,55 @@
 .employeeForm{
-    width: 50%;
+    width: fit-content;
 }
+
 .employeeForm select{
-    padding: 1em;
+    padding: .5em;
     color: black;
 }
 .employeeForm button{
+    margin-top: 2em;
     padding: .5em;
     background-color: rgb(220, 220, 220);
 }
+.buttonArea {
+    text-align: center;
+}
 .employeeForm label{
-    margin: 1em 1em 1em 0;
+    margin: .5em 1em .5em 0;
 }
 .employeeForm__title{
     text-align: center;
+    margin-bottom: 2em;
 }
 .formContainer{
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.rate-group{
+    display: flex;
+    flex-direction: row;
+}
+
+#rate{
+
+    max-width: 9.5em;
+    padding:0 0 0 .75em;
+    margin-left:2em;
+    display: block;
+    height: calc(1.5em + .75rem + 2px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000000;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #a8acb0;
+    border-radius: .25rem;
+    -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+#name{
+    padding:0 0 0 .75em
 }

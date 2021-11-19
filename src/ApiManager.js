@@ -1,5 +1,5 @@
 export const getAllCustomers = () => {
-    return fetch("http://localhost:8088/customers")
+    return fetch("http://localhost:8088/customers?_embed=purchases")
         .then(res => res.json())
 }
 export const getAllLocations = () => {

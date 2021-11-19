@@ -33,6 +33,35 @@ export const PurchaseList = () => {
         []
     )
 
+    //!Help! how do I check for the existing object, and can I map through a Map for the JSX?
+    /* 
+    The key will be an object with the product's id and price as properties.
+    The value will be the quantity.
+    As you iterate the purchases, whenever you hit a product that is already in the Map(), 
+    increment the value by 1.*/
+
+    const createLineItem = () => {
+        const map = new Map()
+
+        for (const purchase of purchases) {
+            const foundProduct = products.find(product => product.id === purchase.productLocation.productId)
+            const productKey = {
+                id: foundProduct?.id,
+                price: foundProduct?.price
+            }
+            if (map.has(productKey)) {
+                //!never hits this portion
+                let foundValue = map.get(productKey)
+                foundValue++
+            } else {
+                map.set(productKey, 1)
+            }
+        }
+        return map
+    }
+
+    createLineItem()
+
     return (
         <div className="purchases">
             {
@@ -44,7 +73,7 @@ export const PurchaseList = () => {
                         return <div key={`purchase--${purchase.id}`} className="purchase">
                             <p>Purchased by {purchase.customer.name} on {purchase.date}</p>
                             <p>Product: {foundProduct?.name}</p>
-                            <p>Quantity: {purchase.quantity}</p>
+                            <p>Price: {foundProduct?.price}</p>
                             <p>Location: {foundLocation?.name} </p>
                         </div>
                     }

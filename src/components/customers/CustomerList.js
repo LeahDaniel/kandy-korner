@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from "react"
-import { getAllCustomers, getAllPurchases } from "../../ApiManager"
+import { getAllCustomers } from "../../ApiManager"
 import "./CustomerList.css"
 
 export const CustomerList = () => {
-    const customerId = parseInt(localStorage.getItem("kandy_customer"))
-    const [purchases, setPurchases] = useState([])
-    const [customers, setCustomer] = useState([])
-
-    //fetch and store customers in transient state
+    const [customers, setCustomers] = useState([])
+    const [sortedCustomers, setSortedCustomers] = useState([])
+    //fetch and store customers embedded with purchases in transient state. 
     useEffect(
         () => {
             getAllCustomers()
-                .then(setCustomer)
+                .then(setCustomers)
         },
         []
     )
 
-    //fetch purchases for only the current customer (from localStorage) and expand the customer and productLocation. store in transient state
     useEffect(
         () => {
-            getAllPurchases()
-                .then(setPurchases)
+            const copy = customers.map(customer => ({ ...customer }))
+
+            const sortedCopy = copy.sort((customer1, customer2) => {
+
+                const quantityValue1 = customer1.purchases.length
+                const quantityValue2 = customer2.purchases.length
+                return quantityValue2 - quantityValue1
+            })
+
+            setSortedCustomers(sortedCopy)
         },
-        [customerId]
+        [customers]
     )
 
     //return jsx- list of customers' names
@@ -35,28 +40,18 @@ export const CustomerList = () => {
                 </tr>
             </thead>
             <tbody>
-            {
-                customers.map(
-                    (customer) => {
-                        const filteredPurchases = purchases.filter(purchase => purchase.customerId === customer.id)
-                        if (filteredPurchases.length > 0) {
-                            let totalQuantity = 0
-                            for (const purchase of filteredPurchases){
-                                totalQuantity += purchase.quantity
-                            }
+                {
+                    sortedCustomers.map(
+                        (customer) => {
+                            const filteredPurchases = customer.purchases
                             return <tr key={`customer--${customer.id}`} className="customer">
                                 <td>{customer.name}</td>
-                                <td>{totalQuantity}</td>
-                            </tr>
-                        } else{
-                            return <tr key={`customer--${customer.id}`} className="customer">
-                                <td>{customer.name}</td>
-                                <td>0</td>
+                                <td>{filteredPurchases.length}</td>
                             </tr>
                         }
-                    }
-                )
-            }
+
+                    )
+                }
             </tbody>
         </table>
     )

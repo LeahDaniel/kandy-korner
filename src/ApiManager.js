@@ -10,6 +10,10 @@ export const getAllEmployees = () => {
     return fetch("http://localhost:8088/employees?_expand=location")
         .then(res => res.json())
 }
+export const getAllProductTypes= () => {
+    return fetch("http://localhost:8088/productTypes")
+        .then(res => res.json())
+}
 export const getAllPurchases = () => {
     return fetch("http://localhost:8088/purchases")
         .then(res => res.json())
@@ -20,7 +24,7 @@ export const getAllProducts = () => {
         .then(res => res.json())
 }
 export const getProductLocationsByLocationId = (locationId) => {
-    return fetch(`http://localhost:8088/productLocations?locationId=${locationId}`)
+    return fetch(`http://localhost:8088/productLocations?locationId=${locationId}&_expand=product`)
         .then(res => res.json())
 }
 export const getPurchasesByCustomerId = (customerId) => {

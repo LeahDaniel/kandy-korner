@@ -18,9 +18,17 @@ export const getAllPurchases = () => {
     return fetch("http://localhost:8088/purchases")
         .then(res => res.json())
 }
-
+export const getAllProductLocations = () => {
+    return fetch("http://localhost:8088/productLocations?_expand=product&_expand=location")
+        .then(res => res.json())
+}
 export const getAllProducts = () => {
     return fetch("http://localhost:8088/products?_expand=productType&_sort=productTypeId")
+        .then(res => res.json())
+}
+
+export const getProductsBySearchTerm = (searchTerm) => {
+    return fetch(`http://localhost:8088/products?_expand=productType&_sort=productTypeId&q=${searchTerm}`)
         .then(res => res.json())
 }
 export const getProductLocationsByLocationId = (locationId) => {

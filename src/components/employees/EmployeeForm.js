@@ -24,10 +24,11 @@ export const EmployeeForm = () => {
         },
         []
     )
-        //!What does "this may be converted to an async function" mean?
+    
     const hireEmployee = (event) => {
         //!What does this do exactly, and when do we need to use it? Why in this function and not others?
         event.preventDefault()
+        //on submit handler for forms- first line of code ^^
 
         const newEmployee = {
             name: employee.enteredName,

@@ -1,24 +1,27 @@
 import React from "react"
 import { Route } from "react-router-dom"
-import { ProductList } from "./products/ProductList"
 import { LocationList } from "./locations/LocationList"
 import { EmployeeForm } from "./employees/EmployeeForm"
 import { EmployeeList } from "./employees/EmployeeList"
 import { CustomerList } from "./customers/CustomerList"
 import { PurchaseList } from "./purchases/PurchaseList"
 import { ProductLocationList } from "./products/ProductLocationList"
+import { Inventory } from "./products/Inventory"
 
 
 export const ApplicationViews = () => {
     return (
         <>
-            <Route exact path="/products">
-                <ProductList />
+            <Route exact path="/inventory">
+                <Inventory />
             </Route>
-            {//! what is the below syntax really saying? \d+
+            {
+                // (\d+) = regular expressions- string pattern matching
+                //\d= decimal or number
+                //+ = one or more of those numbers (forces a number entry in general)
             }
             <Route exact path="/products/location/:locationId(\d+)">
-                <ProductLocationList  />
+                <ProductLocationList />
             </Route>
             <Route exact path="/">
                 <LocationList />

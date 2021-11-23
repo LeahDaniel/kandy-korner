@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react"
-import { getAllProducts } from "../../ApiManager"
-import "./ProductList.css"
+import { getAllProducts, getProductsBySearchTerm } from "../../ApiManager"
+import "./InventoryList.css"
 
-export const ProductList = () => {
+export const InventoryList = ({ searchTerm }) => {
     const [products, setProducts] = useState([])
 
     //fetch products and store in transient state. expand productType and sort by productTypeId 
     //to allow access to the productType name and make sure products are grouped by type
     useEffect(
         () => {
-            getAllProducts()
-                .then(setProducts)
+            if (!searchTerm) {
+                getAllProducts()
+                    .then(setProducts)
+            } else {
+                getProductsBySearchTerm(searchTerm)
+                    .then(setProducts)
+            }
         },
-        []
+        [searchTerm]
     )
     //return jsx- list of all products
     return (

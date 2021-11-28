@@ -4,7 +4,7 @@ import { LocationList } from "./locations/LocationList"
 import { EmployeeForm } from "./employees/EmployeeForm"
 import { EmployeeList } from "./employees/EmployeeList"
 import { CustomerList } from "./customers/CustomerList"
-import { PurchaseList } from "./purchases/PurchaseList"
+import { PurchaseList2 } from "./purchases/PurchaseList2"
 import { ProductLocationList } from "./products/ProductLocationList"
 import { Inventory } from "./products/Inventory"
 
@@ -36,7 +36,7 @@ export const ApplicationViews = () => {
                 <CustomerList />
             </Route>
             <Route path="/purchases">
-                <PurchaseList />
+                <PurchaseList2 />
             </Route>
         </>
     )

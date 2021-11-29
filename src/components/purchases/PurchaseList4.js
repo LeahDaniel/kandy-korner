@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import {getAllProductLocations, getPurchasesByCustomerId } from "../../ApiManager"
 import "./PurchaseList.css"
 
-export const PurchaseList3 = () => {
+export const PurchaseList4 = () => {
     const customerId = parseInt(localStorage.getItem("kandy_customer"))
     const [purchases, setPurchases] = useState([])
     const [productLocations, setProductLocations] = useState([])
@@ -28,6 +28,9 @@ export const PurchaseList3 = () => {
         [purchases]
     )
 
+
+    //Goal: use reduce method directly inside of JSX instead of having a separate function.
+    //! Help, please!
     const frequencyCounter = (items) => {
         let itemsCopy = []
 
@@ -44,6 +47,7 @@ export const PurchaseList3 = () => {
 
         setPurchaseLineItems(mapArray)
     }
+
 
     return (
         <div className="purchases">
